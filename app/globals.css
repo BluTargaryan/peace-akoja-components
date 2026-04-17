@@ -1,26 +1,103 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #F2F2F2;
+  --text: #0D0D0D;
 }
 
 @theme inline {
   --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-text: var(--text);
   --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-funnel-display: var(--font-funnel-display);
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
-    --foreground: #ededed;
+    --text: #ededed;
   }
-}
+} */
 
 body {
   background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* --- Mobile (base) typography --- */
+@layer base {
+  h1, h2, h3, h4 {
+    font-family: var(--font-funnel-display);
+    font-weight: 600;
+  }
+
+  h1 {
+    font-size: 32px;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  h2 {
+    font-size: 24px;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+
+  h3 {
+    font-size: 20px;
+    line-height: 1.25;
+  }
+
+  h4 {
+    font-size: 16px;
+    line-height: 1.4;
+  }
+}
+
+/* Functional text (captions, nav, links) */
+.text-func {
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.ourMaxWidth {
+  width: 396px;
+}
+
+/* --- Default (≥ 744px) typography --- */
+@media (min-width: 744px) {
+  @layer base {
+    h1 { font-size: 40px; }
+    h2 { font-size: 32px; }
+    h3 { font-size: 24px; }
+  }
+
+  .ourMaxWidth {
+    width: 664px;
+  }
+}
+
+/* --- Desktop (≥ 1440px) typography --- */
+@media (min-width: 1440px) {
+  body {
+    font-size: 24px;
+  }
+
+  @layer base {
+    h1 { font-size: 64px; }
+    h2 { font-size: 48px; }
+    h3 { font-size: 32px; }
+    h4 { font-size: 24px; }
+  }
+
+  .text-func {
+    font-size: 16px;
+  }
+
+  .ourMaxWidth {
+    width: 1144px;
+  }
 }
