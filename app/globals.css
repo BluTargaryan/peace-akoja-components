@@ -64,7 +64,16 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap:112px;
+    
+  }
+
+  button{
+    font-family: var(--font-funnel-display);
+    font-weight: 500;
+  }
+
+  button, a{
+    cursor: pointer;
   }
 }
 

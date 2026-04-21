@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Funnel_Display } from "next/font/google";
 import "./globals.css";
 import Nav from "./components/sections/Nav";
+import Footer from "./components/sections/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,6 +32,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <Nav />
         {children}
+        <Footer />
       </body>
     </html>
   );
