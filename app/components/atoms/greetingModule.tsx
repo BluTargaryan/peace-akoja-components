@@ -59,6 +59,7 @@ const GreetingModule = () => {
   return (
     <div className='flex flex-col text-right font-light text-xs uppercase cursor-pointer
     md:text-sm
+    xl:text-base
     '>
       <span
         className='text-text hover:text-accent transition-all duration-300'

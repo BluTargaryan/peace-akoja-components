@@ -116,6 +116,9 @@ body {
     h3 { font-size: 32px; }
     h4 { font-size: 24px; }
     p{ font-size: 24px; }
+    main{
+      padding: 240px 0;
+    }
   }
 
   .text-func {
@@ -125,6 +128,6 @@ body {
   .ourMaxWidth {
     max-width: 1144px;
     width: 100%;
-    margin:0;
+    margin-inline: auto;
   }
 }
