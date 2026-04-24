@@ -57,7 +57,9 @@ const GreetingModule = () => {
   }, [])
 
   return (
-    <div className='flex flex-col text-right font-light text-xs uppercase cursor-pointer'>
+    <div className='flex flex-col text-right font-light text-xs uppercase cursor-pointer
+    md:text-sm
+    '>
       <span
         className='text-text hover:text-accent transition-all duration-300'
         onClick={() => setShowFullTime((prev) => !prev)}

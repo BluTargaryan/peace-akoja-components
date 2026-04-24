@@ -9,7 +9,7 @@ const ComponentCard = ({componentId}: {componentId: string}) => {
     <Link href="/[componentId]" as={`/${componentId}`}>
     <div className="flex flex-col border-2 border-text">
   
-  <div className="p-5 uppercase border-b-2 border-text">
+  <div className="p-5 border-b-2 border-text">
     <h3>Component Name</h3>
   </div>
 

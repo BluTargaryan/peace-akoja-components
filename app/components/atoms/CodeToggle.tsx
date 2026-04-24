@@ -13,7 +13,7 @@ const CodeToggle = () => {
       <Button
         content={
           <>
-            <span>Show Code</span>
+            <span>{showCode ? "Hide Code" : "Show Code"}</span>
             <MdKeyboardArrowRight
               className={`transition-transform duration-300 text-xl ${
                 showCode ? "rotate-90" : ""
