@@ -35,7 +35,6 @@ const GreetingModule = () => {
   const [day, setDay] = useState('Monday')
   const [fullTimeText, setFullTimeText] = useState('')
   const [fullDateText, setFullDateText] = useState('')
-  const [location, setLocation] = useState('Nigeria')
 
   const [showFullTime, setShowFullTime] = useState(false)
   const [showFullDate, setShowFullDate] = useState(false)
@@ -55,27 +54,6 @@ const GreetingModule = () => {
     const month = now.toLocaleDateString('en-US', { month: 'long' })
     const year = now.getFullYear()
     setFullDateText(`${ordinalDay} ${month} ${year}`)
-
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        async (pos) => {
-          try {
-            const res = await fetch(
-              `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${pos.coords.latitude}&longitude=${pos.coords.longitude}&localityLanguage=en`
-            )
-            const data = await res.json()
-            setLocation(data.countryName || 'World')
-          } catch {
-            // fallback: keep default
-          }
-        },
-        () => {
-          const tz = Intl.DateTimeFormat().resolvedOptions().timeZone
-          const country = tz.split('/')[1]?.replace(/_/g, ' ') ?? 'World'
-          setLocation(country)
-        }
-      )
-    }
   }, [])
 
   return (
@@ -90,7 +68,7 @@ const GreetingModule = () => {
         className='text-text hover:text-accent transition-all duration-300'
         onClick={() => setShowFullDate((prev) => !prev)}
       >
-        {showFullDate ? (displayedDate || '…') : day}, {location}
+        {showFullDate ? (displayedDate || '…') : `Happy ${day}`}
       </span>
     </div>
   )
