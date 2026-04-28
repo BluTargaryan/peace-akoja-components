@@ -1,7 +1,10 @@
+'use client'
+
 import Link from 'next/link'
 import React from 'react'
 import Button from './Button'
 import {MdOutlineArrowForward} from 'react-icons/md'
+import { SpringButton } from './SpringButton'
 
 
 const ComponentCard = ({componentId}: {componentId: string}) => {
@@ -14,7 +17,12 @@ const ComponentCard = ({componentId}: {componentId: string}) => {
   </div>
 
   <div className='w-full h-50 flex items-center justify-center'>
-    <div className='w-50 h-16 border-2 border-text'/>
+    {/* <div className='w-50 h-16 border-2 border-text'/> */}
+    <SpringButton
+    children={<span>Button</span>}
+    className='w-50 h-16 border-2 border-text'
+    onClick={() => {}}
+    />
   </div>
 
   <div className='px-6 py-10 flex flex-col gap-5 border-t-2 border-text'>
