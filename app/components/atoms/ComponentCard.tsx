@@ -1,17 +1,20 @@
 'use client'
 
 import Link from 'next/link'
-import React from 'react'
+import React, { useState } from 'react'
 import Button from './Button'
 import {MdOutlineArrowForward} from 'react-icons/md'
 import { SpringButton } from './SpringButton'
 import { Accordion } from './Accordion'
+import { StaggeredList } from './StaggeredList'
 
 
 const ComponentCard = ({componentId}: {componentId: string}) => {
-  const items = [
-    { value: 'shipping', title: 'How long does shipping take?', content: '3–5 business days.' },
-    { value: 'returns',  title: 'What is your return policy?',  content: '30 days, no questions asked.' },
+  const [replayKey, setReplayKey] = useState(0);
+  const people = [
+    { name: 'Aisha Kamara',  role: 'Design lead' },
+    { name: 'Tunde Okafor',  role: 'Engineering' },
+    { name: 'Ngozi Mensah',  role: 'Product'     },
   ];
   return (
     <div className="flex flex-col border-2 border-text">
@@ -20,9 +23,30 @@ const ComponentCard = ({componentId}: {componentId: string}) => {
     <h3>Component Name</h3>
   </div>
 
-  <div className='w-full py-20 flex items-center justify-center'>
+  <div className='w-full py-20 flex flex-col items-center justify-center gap-4'>
     {/* <div className='w-50 h-16 border-2 border-text'/> */}
-    <Accordion items={items} type="single" className='w-60 ' 
+    <StaggeredList
+      key={replayKey}
+      items={people}
+      staggerDelay={0.08}
+      duration={0.3}
+      once={true}
+      renderItem={(person) => (
+        <div className="flex items-center gap-3 p-4 rounded-xl border border-neutral-200 bg-white">
+          <div className="w-9 h-9 rounded-full bg-neutral-100 flex items-center justify-center text-sm font-medium text-neutral-500">
+            {person.name.split(' ').map(n => n[0]).join('')}
+          </div>
+          <div>
+            <p className="text-sm font-medium text-neutral-900">{person.name}</p>
+            <p className="text-xs text-neutral-500">{person.role}</p>
+          </div>
+        </div>
+      )}
+    />
+    <Button
+    className='w-50 h-16 border-2 border-text text-base'
+      content={<span>Replay</span>}
+      onClick={() => setReplayKey(k => k + 1)}
     />
   </div>
 
