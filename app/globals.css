@@ -12,6 +12,18 @@
   --color-accent: var(--accent);
   --font-sans: var(--font-geist-sans);
   --font-funnel-display: var(--font-funnel-display);
+
+
+  --animate-accordion-down: accordion-down 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  --animate-accordion-up: accordion-up 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  @keyframes accordion-down {
+    from { height: 0; }
+    to { height: var(--radix-accordion-content-height); }
+  }
+  @keyframes accordion-up {
+    from { height: var(--radix-accordion-content-height); }
+    to { height: 0; }
+  }
 }
 
 /* @media (prefers-color-scheme: dark) {
