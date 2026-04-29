@@ -1,5 +1,5 @@
 
-import ComponentCard from "./components/atoms/ComponentCard";
+import ComponentGrid from "./components/sections/ComponentGrid";
 
 export default function Home() {
   return (
@@ -14,19 +14,7 @@ export default function Home() {
       <section className="flex flex-col gap-10 ourMaxWidth items-center xl:gap-20">
 <h2>Components</h2>
 
-<ul className="grid grid-cols-1 gap-5 px-4 w-full
-md:grid-cols-2 xl:grid-cols-3  
-">
-<li>
-<ComponentCard componentId="1" />
-</li>
-<li>
-<ComponentCard componentId="2" />
-</li>
-<li>
-<ComponentCard componentId="3" />
-</li>
-</ul>
+<ComponentGrid />
       </section>
 
     </main>
