@@ -4,6 +4,7 @@ import { Accordion } from "../components/atoms/Accordion";
 import StaggeredListPreview from "../components/atoms/StaggeredListPreview";
 import ToasterPreview from "../components/atoms/ToasterPreview";
 import { CardSkeleton } from "../components/atoms/CardSkeleton";
+import SortableListPreview from "../components/atoms/SortableListPreview";
 
 export type ComponentEntry = {
   id: string;
@@ -56,5 +57,11 @@ export const componentList: ComponentEntry[] = [
     name: "Card Skeleton",
     preview: () => <CardSkeleton />,
     description: "A primitive Skeleton component that renders a placeholder shape matching the dimensions of the content it stands in for. Three animations are available: shimmer sweeps a highlight across the surface using a translated gradient pseudo-element, giving the impression of light moving across the UI; pulse fades the whole element in and out; wave subtly scales the element on the Y axis. The skeleton is composable — you build card, list, or page skeletons by arranging multiple instances with widths, heights, and border radii that mirror the real content layout, so the page feels structurally stable while data loads. Requires tailwind-merge."
+  },
+  {
+    id: "6",
+    name: "Sortable List",
+    preview: () => <SortableListPreview />,
+    description: "A list where items can be dragged vertically to reorder. Framer Motion's Reorder.Group tracks each item's position and reorders the array in real time as you drag, so surrounding items shuffle into their new slots before you drop — communicating the outcome of the action before it's committed. dragListener is disabled on the item itself so only the explicit grip handle starts a drag, preventing accidental reorders on click. useDragControls threads that pointer event from the handle down to the Reorder.Item. Each item lifts slightly on drag via whileDrag scale and shadow to signal it's the active element being moved. Requires framer-motion and tailwind-merge."
   },
 ];

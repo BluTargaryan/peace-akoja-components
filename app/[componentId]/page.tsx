@@ -21,7 +21,7 @@ Component Name
 
 <div className="ourMaxWidth flex flex-col gap-5 xl:gap-10">
 
-<div className="w-full h-50 flex items-center justify-center border-2 border-text xl:h-100">
+<div className="w-full py-20 flex items-center justify-center border-2 border-text xl:h-100">
 <div className='w-50 h-16 border-2 border-text'/>
 </div>
 

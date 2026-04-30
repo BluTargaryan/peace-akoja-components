@@ -15,6 +15,7 @@ export default function SortableListPreview() {
 
   return (
     <SortableList
+      className='w-50'
       items={items}
       onReorder={setItems}
       renderItem={(item) => (

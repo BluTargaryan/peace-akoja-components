@@ -4,26 +4,10 @@ import React, { useState } from 'react'
 import Button from './Button'
 import { MdClose, MdOutlineContentCopy } from 'react-icons/md'
 
-const CodeModule = () => {
+const CodeModule = ( { heading, codeSnippet }: { heading: string, codeSnippet: string } ) => {
   const [copied, setCopied] = useState(false)
   const [isOverlayOpen, setIsOverlayOpen] = useState(false)
-  const codeSnippet = `
-function greet(name) {
-  return "Hello, " + name + "!";
-}
 
-console.log(greet("World")); // Hello, World!
-function greet(name) {
-  return "Hello, " + name + "!";
-}
-
-console.log(greet("World")); // Hello, World!
-function greet(name) {
-  return "Hello, " + name + "!";
-}
-
-console.log(greet("World")); // Hello, World!
-`
 
   const handleCopy = async () => {
     await navigator.clipboard.writeText(codeSnippet)
@@ -32,7 +16,9 @@ console.log(greet("World")); // Hello, World!
   }
 
   return (
-    <div className='flex flex-col'>
+    <div className='flex flex-col gap-2 xl:gap-4'>
+      <h4>{heading}</h4>
+      <div className='flex flex-col'>
     <div
       className='w-full h-100 p-10 bg-text text-background overflow-y-scroll'
       onDoubleClick={() => setIsOverlayOpen(true)}
@@ -85,6 +71,7 @@ console.log(greet("World")); // Hello, World!
         </div>
       </div>
     )}
+    </div>
     </div>
   )
 }

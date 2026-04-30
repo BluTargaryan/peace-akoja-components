@@ -7,7 +7,23 @@ import CodeModule from "./CodeModule";
 
 const CodeToggle = () => {
   const [showCode, setShowCode] = useState(false);
+  const codeSnippet = `
+function greet(name) {
+  return "Hello, " + name + "!";
+}
 
+console.log(greet("World")); // Hello, World!
+function greet(name) {
+  return "Hello, " + name + "!";
+}
+
+console.log(greet("World")); // Hello, World!
+function greet(name) {
+  return "Hello, " + name + "!";
+}
+
+console.log(greet("World")); // Hello, World!
+`
   return (
     <>
       <Button
@@ -26,9 +42,14 @@ const CodeToggle = () => {
       />
 
       <div
-        className={`${showCode ? "h-auto" : "h-0"} overflow-hidden transition-all duration-300`}
+        className={`${showCode ? "h-auto" : "h-0"} overflow-hidden transition-all duration-300 flex flex-col gap-5 xl:gap-10`}
       >
-        <CodeModule />
+        <CodeModule 
+        heading="Component Code"
+        codeSnippet={codeSnippet} />
+        <CodeModule 
+        heading="Usage Example"
+        codeSnippet={codeSnippet} />
       </div>
     </>
   );
