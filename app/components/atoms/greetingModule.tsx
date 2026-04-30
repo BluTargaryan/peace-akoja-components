@@ -14,10 +14,11 @@ const getGreeting = (hour: number) => {
   return 'Good evening, visitor'
 }
 
-const useTypewriter = (text: string, trigger: boolean, speed = 40) => {
-  const [displayed, setDisplayed] = useState('')
+// key=0 → show text immediately; key>0 → animate on each increment
+const useTypewriter = (text: string, key: number, speed = 40) => {
+  const [displayed, setDisplayed] = useState(text)
   useEffect(() => {
-    if (!trigger) { setDisplayed(''); return }
+    if (key === 0) { setDisplayed(text); return }
     let i = 0
     setDisplayed('')
     const interval = setInterval(() => {
@@ -26,7 +27,7 @@ const useTypewriter = (text: string, trigger: boolean, speed = 40) => {
       if (i === text.length) clearInterval(interval)
     }, speed)
     return () => clearInterval(interval)
-  }, [trigger, text, speed])
+  }, [key, text, speed])
   return displayed
 }
 
@@ -39,8 +40,15 @@ const GreetingModule = () => {
   const [showFullTime, setShowFullTime] = useState(false)
   const [showFullDate, setShowFullDate] = useState(false)
 
-  const displayedTime = useTypewriter(fullTimeText, showFullTime)
-  const displayedDate = useTypewriter(fullDateText, showFullDate)
+  const [fullTimeKey, setFullTimeKey] = useState(0)
+  const [fullDateKey, setFullDateKey] = useState(0)
+  const [greetingKey, setGreetingKey] = useState(0)
+  const [dayKey, setDayKey] = useState(0)
+
+  const displayedTime     = useTypewriter(fullTimeText,       fullTimeKey)
+  const displayedDate     = useTypewriter(fullDateText,       fullDateKey)
+  const displayedGreeting = useTypewriter(greeting,           greetingKey)
+  const displayedDay      = useTypewriter(`Happy ${day}`,     dayKey)
 
   useEffect(() => {
     const now = new Date()
@@ -63,15 +71,31 @@ const GreetingModule = () => {
     '>
       <span
         className='text-text hover:text-accent transition-all duration-300'
-        onClick={() => setShowFullTime((prev) => !prev)}
+        onClick={() => {
+          if (showFullTime) {
+            setShowFullTime(false)
+            setGreetingKey(k => k + 1)
+          } else {
+            setShowFullTime(true)
+            setFullTimeKey(k => k + 1)
+          }
+        }}
       >
-        {showFullTime ? (displayedTime || '…') : greeting}
+        {showFullTime ? (displayedTime || '…') : (displayedGreeting || '…')}
       </span>
       <span
         className='text-text hover:text-accent transition-all duration-300'
-        onClick={() => setShowFullDate((prev) => !prev)}
+        onClick={() => {
+          if (showFullDate) {
+            setShowFullDate(false)
+            setDayKey(k => k + 1)
+          } else {
+            setShowFullDate(true)
+            setFullDateKey(k => k + 1)
+          }
+        }}
       >
-        {showFullDate ? (displayedDate || '…') : `Happy ${day}`}
+        {showFullDate ? (displayedDate || '…') : (displayedDay || '…')}
       </span>
     </div>
   )
