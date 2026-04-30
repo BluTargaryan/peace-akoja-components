@@ -24,6 +24,17 @@
     from { height: var(--radix-accordion-content-height); }
     to { height: 0; }
   }
+
+  --animate-shimmer: shimmer 1.4s ease-in-out infinite;
+  --animate-wave: wave 1.4s ease-in-out infinite;
+  @keyframes shimmer {
+    from { transform: translateX(-100%); }
+    to   { transform: translateX(100%); }
+  }
+  @keyframes wave {
+    0%, 100% { transform: scaleY(1); }
+    50%      { transform: scaleY(0.92); }
+  }
 }
 
 /* @media (prefers-color-scheme: dark) {
@@ -91,6 +102,18 @@ body {
   p{
     font-size: 16px;
   }
+}
+
+.skeleton-shimmer {
+  overflow: hidden;
+}
+.skeleton-shimmer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(to right, transparent, rgb(255 255 255 / 0.1), transparent);
+  animation: shimmer 1.4s ease-in-out infinite;
 }
 
 /* Functional text (captions, nav, links) */
