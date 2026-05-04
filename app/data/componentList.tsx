@@ -11,7 +11,7 @@ export type ComponentEntry = {
   name: string;
   component?: React.ReactNode;
   preview: () => React.ReactNode;
-  description: string;
+  description: React.ReactNode;
   code: string;
   usageExample: string;
 };
@@ -25,7 +25,13 @@ export const componentList: ComponentEntry[] = [
         Click me
       </SpringButton>
     ),
-    description: "A button that compresses on press and springs back on release. Uses a mass-spring-damper simulation — stiffness controls snap speed, damping controls bounce, mass controls sluggishness. Unlike a CSS transition, the spring carries momentum so the button overshoots and settles like a real physical object. Structural styles like cursor and focus ring are hardcoded as a base; visual styling is passed as a Tailwind string via className, merged with tailwind-merge so consumer classes always win. Requires framer-motion and tailwind-merge.",
+    description: (
+      <>
+        <p>Problem — Clicks feel weightless. A standard button gives no physical confirmation that a press registered — it either fires an action immediately or does nothing, with no sensation in between. Users have been trained by physical buttons to expect compression and release as a feedback loop. Without it, interactive elements feel flat and untrustworthy, especially on actions that matter like submitting a form or confirming a delete.</p>
+        <p>Motion — A mass-spring-damper simulation runs on every frame rather than interpolating between two values at a fixed rate. When you press, the target scale drops to 0.9. When you release, the spring pulls back toward 1 — but because the system carries velocity, it overshoots slightly before settling. That overshoot is what makes it feel physical rather than mechanical. Stiffness controls how hard the spring pulls, damping controls how quickly oscillation dies, and mass controls how much the button resists the spring's force.</p>
+        <p>Push — Vary press depth based on hold duration. A quick tap compresses to 0.92, a long press bottoms out to 0.8 — making the duration of the press feel like applied force. You could also add a subtle haptic pulse on mobile via the Vibration API on release.</p>
+      </>
+    ),
     code: `import { motion } from "framer-motion";
 import { twMerge } from "tailwind-merge";
 
@@ -65,7 +71,13 @@ export default function Page() {
         ]}
       />
     ),
-    description: "An accordion that smoothly animates panels open and closed. The height animation works by reading the panel's natural content height via Radix's --radix-accordion-content-height CSS variable and transitioning to it — avoiding the height: auto limitation that breaks CSS transitions. Radix handles aria-expanded, aria-controls, keyboard navigation, and open/closed state. The chevron rotates 180° on open using a group-data-[state=open] Tailwind selector. type='single' allows only one open item at a time; type='multiple' lets each item toggle independently. Requires @radix-ui/react-accordion and tailwind-merge.",
+    description: (
+      <>
+        <p>Problem — Content panels that instantly appear and disappear give no sense of where content lives in space. The user clicks a trigger and information materialises from nowhere, which breaks spatial continuity. This is especially disorienting when multiple items are open — there is no sense of the panel belonging to the trigger that opened it.</p>
+        <p>Motion — Height animates to the panel's measured natural height rather than auto, because CSS cannot transition to height: auto — it would snap. Radix exposes the content height as a CSS variable that the keyframe reads at runtime. The chevron rotation reinforces direction of travel — rotating 180 degrees down on open and back on close so the icon always points toward where the content is going. The easing curve is fast-in, slow-out to mirror the feel of something expanding under slight resistance.</p>
+        <p>Push — Stagger the content inside the panel on open — text lines, images, or child elements cascade in individually rather than the whole block appearing at once. This would make the panel feel like it is revealing content progressively rather than just growing a container.</p>
+      </>
+    ),
     code: `'use client';
 
 import * as RadixAccordion from '@radix-ui/react-accordion';
@@ -149,7 +161,13 @@ export default function FaqSection() {
     id: "3",
     name: "Staggered List",
     preview: () => <StaggeredListPreview />,
-    description: "A list where each item fades in and slides up in sequence, one after the other. Framer Motion's staggerChildren staggers the start time of each child's animation by a fixed delay — so item 0 starts immediately, item 1 starts after one delay, item 2 after two delays, and so on. useInView triggers the animation only when the list scrolls into the viewport, with an 80px margin so it fires just before the user reaches it. once=true means it only plays on first entry; set it to false to replay on every scroll-in. The component is generic over T so it works with any data shape via the renderItem render prop. Requires framer-motion and tailwind-merge.",
+    description: (
+      <>
+        <p>Problem — Lists that render all at once give no visual hierarchy — every item competes for attention simultaneously and the eye has nowhere to start. This is especially pronounced on first load, where a full list appearing instantly can feel like a wall of content rather than a set of individual items worth reading.</p>
+        <p>Motion — staggerChildren in Framer Motion offsets each child's animation start time by a fixed delay, so items arrive in sequence rather than together. The slide-up grounds each item spatially as it arrives — fading in without movement feels ghostly, but combining opacity with a small Y translation gives each item a direction of origin. useInView defers the sequence until the list is actually in the viewport, so items offscreen do not waste their entrance.</p>
+        <p>Push — As built, this is still closer to atmosphere than information. The real version of this component is the filter animation — when a user searches or filters, matching items stay and reflow, non-matching items exit, and new matches enter. Every motion then has a cause the user initiated, which makes the animation functional rather than decorative.</p>
+      </>
+    ),
     code: `'use client';
 
 import { motion, useInView, type Variants } from 'framer-motion';
@@ -230,7 +248,13 @@ export default function Section() {
     id: "4",
     name: "Toaster",
     preview: () => <ToasterPreview />,
-    description: "A toast notification system where each toast fades and scales in from below, then exits upward when dismissed or timed out. AnimatePresence is the key — it keeps exiting items mounted in the DOM long enough to play their exit animation before React removes them, which is something a plain conditional render can't do. mode='popLayout' makes remaining toasts smoothly reflow into position as others leave rather than snapping. Each toast schedules its own removal via setTimeout in a useEffect, cleaned up on unmount to prevent stale state updates. State lives in useToast, kept separate from the rendering so the hook can be called from anywhere in the tree. Requires framer-motion and tailwind-merge.",
+    description: (
+      <>
+        <p>Problem — Feedback messages that appear and disappear instantly are easy to miss and feel jarring when they snap out of existence. Users acting quickly — submitting forms, triggering async operations — need non-blocking confirmation that something happened, and they need time to read it before it leaves.</p>
+        <p>Motion — AnimatePresence is the core mechanism. React would normally unmount a component immediately on conditional removal, cutting off any exit animation mid-frame. AnimatePresence keeps the exiting element mounted long enough to complete its exit sequence before React removes it from the DOM. mode='popLayout' handles the reflow — when a toast exits, remaining toasts animate into their new positions rather than snapping, so the stack always feels like a coherent physical column. Each toast manages its own dismissal timer in a useEffect so the logic stays self-contained.</p>
+        <p>Push — Add a thin progress bar along the bottom of each toast that depletes over the duration. The user can see exactly how long they have before it auto-dismisses, and hovering to pause the timer gives them control without requiring an explicit close action.</p>
+      </>
+    ),
     code: `'use client';
 
 import { AnimatePresence } from 'framer-motion';
@@ -334,7 +358,13 @@ export default function Demo() {
     id: "5",
     name: "Card Skeleton",
     preview: () => <CardSkeleton />,
-    description: "A primitive Skeleton component that renders a placeholder shape matching the dimensions of the content it stands in for. Three animations are available: shimmer sweeps a highlight across the surface using a translated gradient pseudo-element, giving the impression of light moving across the UI; pulse fades the whole element in and out; wave subtly scales the element on the Y axis. The skeleton is composable — you build card, list, or page skeletons by arranging multiple instances with widths, heights, and border radii that mirror the real content layout, so the page feels structurally stable while data loads. Requires tailwind-merge.",
+    description: (
+      <>
+        <p>Problem — Blank loading states feel broken. A white page with no content gives users no indication of whether the app is working or frozen. Spinners communicate loading but give no sense of the layout that is coming, so the content appearing feels like a surprise rather than a reveal. Users need both a signal that loading is active and a structural preview of what to expect.</p>
+        <p>Motion — Shimmer moves a highlight across the surface using a translated gradient pseudo-element, simulating light catching a surface — a physical metaphor for something that is present but not yet filled in. The key detail is that it moves continuously, distinguishing active loading from a static placeholder. Pulse fades the whole element in and out for lower-contrast layouts where a sweeping highlight would be too visually busy. Wave subtly scales on the Y axis for dense list contexts.</p>
+        <p>Push — Animate the transition from skeleton to real content. A cross-fade or a subtle blur-to-sharp transition on the incoming content would make the reveal feel intentional rather than a hard swap. Right now the skeleton disappears and content appears — bridging that moment would complete the experience.</p>
+      </>
+    ),
     code: `import { twMerge } from 'tailwind-merge';
 
 type Animation = 'shimmer' | 'pulse' | 'wave';
@@ -394,7 +424,13 @@ export default function LoadingCard() {
     id: "6",
     name: "Sortable List",
     preview: () => <SortableListPreview />,
-    description: "A list where items can be dragged vertically to reorder. Framer Motion's Reorder.Group tracks each item's position and reorders the array in real time as you drag, so surrounding items shuffle into their new slots before you drop — communicating the outcome of the action before it's committed. dragListener is disabled on the item itself so only the explicit grip handle starts a drag, preventing accidental reorders on click. useDragControls threads that pointer event from the handle down to the Reorder.Item. Each item lifts slightly on drag via whileDrag scale and shadow to signal it's the active element being moved. Requires framer-motion and tailwind-merge.",
+    description: (
+      <>
+        <p>Problem — Dropping an item into a reorderable list without live feedback is a guess. The user picks something up, moves it somewhere, and only sees the result after releasing. If the outcome is wrong they have to undo and try again. The interaction requires the user to hold a mental model of the list's new order entirely in their head during the drag.</p>
+        <p>Motion — Reorder.Group continuously remeasures item positions during the drag and updates the array in real time, so surrounding items animate into their new positions as the dragged item moves through them. The user sees the outcome before committing. The dragged item lifts slightly via whileDrag scale and shadow, separating it from the stack spatially so it is clear which element is in motion. dragListener is off on the item itself — only the grip handle starts a drag — preventing accidental reorders on click or text selection.</p>
+        <p>Push — Add snap zones — as the dragged item hovers over a valid slot, the gap between surrounding items widens slightly to invite the drop, making the target feel magnetic rather than geometric. This would reduce precision required and make the interaction feel more forgiving.</p>
+      </>
+    ),
     code: `'use client';
 
 import { useState } from 'react';

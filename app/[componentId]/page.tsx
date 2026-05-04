@@ -41,7 +41,7 @@ export default async function ComponentDetailPage({
 
         <CodeToggle code={entry.code} usageExample={entry.usageExample} />
 
-        <p>{entry.description}</p>
+        <div className="flex flex-col gap-5">{entry.description}</div>
       </div>
     </main>
   );
