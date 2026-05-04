@@ -15,7 +15,7 @@ export default function ToasterPreview() {
   const { toasts, addToast, removeToast } = useToast();
 
   return (
-    <>
+    <div className="flex flex-col gap-3">
       <div className="grid grid-cols-2 gap-3">
         {toastVariants.map(({ type, label, title, message }) => (
           <button
@@ -29,6 +29,6 @@ export default function ToasterPreview() {
       </div>
 
       <Toaster toasts={toasts} onRemove={removeToast} />
-    </>
+    </div>
   );
 }

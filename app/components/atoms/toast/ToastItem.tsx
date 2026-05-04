@@ -59,7 +59,7 @@ export function ToastItem({ toast, onRemove }: ToastItemProps) {
       transition={{ duration: 0.25, ease: [0.34, 1.56, 0.64, 1] }}
       role="alert"
       className={twMerge(
-        'flex items-start gap-3 px-4 py-3 rounded-xl bg-white border w-full max-w-sm',
+        'flex items-start gap-3 px-4 py-3 rounded-xl  border w-full max-w-sm',
         borderClass[toast.type]
       )}
     >
@@ -67,12 +67,12 @@ export function ToastItem({ toast, onRemove }: ToastItemProps) {
       <div className="flex-1 min-w-0">
         <p className="text-sm font-medium text-neutral-900">{toast.title}</p>
         {toast.message && (
-          <p className="text-xs text-neutral-500 mt-0.5 leading-relaxed">{toast.message}</p>
+          <p className="text-xs text-neutral-900 mt-0.5 leading-relaxed">{toast.message}</p>
         )}
       </div>
       <button
         onClick={() => onRemove(toast.id)}
-        className="text-neutral-400 hover:text-neutral-700 text-base leading-none cursor-pointer border-none bg-none p-0"
+        className="text-neutral-900 hover:text-neutral-900 text-base leading-none cursor-pointer border-none bg-none p-0"
         aria-label="Dismiss"
       >
         &times;

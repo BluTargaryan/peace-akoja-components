@@ -5,25 +5,14 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 import Button from "./Button";
 import CodeModule from "./CodeModule";
 
-const CodeToggle = () => {
+const CodeToggle = ({
+  code,
+  usageExample,
+}: {
+  code: string;
+  usageExample: string;
+}) => {
   const [showCode, setShowCode] = useState(false);
-  const codeSnippet = `
-function greet(name) {
-  return "Hello, " + name + "!";
-}
-
-console.log(greet("World")); // Hello, World!
-function greet(name) {
-  return "Hello, " + name + "!";
-}
-
-console.log(greet("World")); // Hello, World!
-function greet(name) {
-  return "Hello, " + name + "!";
-}
-
-console.log(greet("World")); // Hello, World!
-`
   return (
     <>
       <Button
@@ -44,12 +33,8 @@ console.log(greet("World")); // Hello, World!
       <div
         className={`${showCode ? "h-auto" : "h-0"} overflow-hidden transition-all duration-300 flex flex-col gap-5 xl:gap-10`}
       >
-        <CodeModule 
-        heading="Component Code"
-        codeSnippet={codeSnippet} />
-        <CodeModule 
-        heading="Usage Example"
-        codeSnippet={codeSnippet} />
+        <CodeModule heading="Component Code" codeSnippet={code} />
+        <CodeModule heading="Usage Example" codeSnippet={usageExample} />
       </div>
     </>
   );
