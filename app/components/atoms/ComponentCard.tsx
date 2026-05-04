@@ -22,7 +22,7 @@ const ComponentCard = ({ entry }: { entry: ComponentEntry }) => {
   <div className='px-6 py-10 flex flex-col gap-5 border-t-2 border-text'>
     <p className='line-clamp-6'>{entry.description}</p>
     <Link href="/[componentId]" as={`/${entry.id}`}>
-<Button content={<><MdOutlineArrowForward className='text-xl'/> <span>Details</span></>} 
+<Button content={<><span>Details</span><MdOutlineArrowForward className='text-xl'/> </>} 
 className='px-10 py-6' 
 />
 </Link>

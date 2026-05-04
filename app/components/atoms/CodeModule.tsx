@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import Button from './Button'
-import { MdClose, MdOutlineContentCopy } from 'react-icons/md'
+import { MdClose, MdOpenInFull, MdOutlineContentCopy } from 'react-icons/md'
 
 const CodeModule = ( { heading, codeSnippet }: { heading: string, codeSnippet: string } ) => {
   const [copied, setCopied] = useState(false)
@@ -28,12 +28,18 @@ const CodeModule = ( { heading, codeSnippet }: { heading: string, codeSnippet: s
         </pre>
    
     </div>
+    <div className='flex flex-col md:flex-row'>
     <Button
     content={ <><span>{copied ? "Copied!" : "Copy to clipboard"}</span><MdOutlineContentCopy /></>}
-    className='px-10 py-6'
+    className='px-10 py-6 border-t-0'
     onClick={handleCopy}
     />
-
+    <Button
+    content={ <><span>Open overlay</span><MdOpenInFull /></>}
+    className='px-10 py-6 border-t-0'
+    onClick={() => setIsOverlayOpen(true)}
+    />
+    </div>
     {isOverlayOpen && (
       <div
         className='fixed inset-0 z-50 bg-text/70 p-4 md:p-10'
@@ -43,7 +49,7 @@ const CodeModule = ( { heading, codeSnippet }: { heading: string, codeSnippet: s
           className='mx-auto flex h-full w-full max-w-5xl flex-col border-2 border-text bg-background p-6'
           onClick={(event) => event.stopPropagation()}
         >
-          <div className='mb-4 flex justify-end gap-4'>
+          <div className='mb-4 flex flex-col md:flex-row  md:justify-end gap-4'>
             <Button
               content={
                 <>
