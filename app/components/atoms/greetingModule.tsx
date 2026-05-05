@@ -17,25 +17,40 @@ const getGreeting = (hour: number) => {
 // key=0 → show text immediately; key>0 → animate on each increment
 const useTypewriter = (text: string, key: number, speed = 40) => {
   const [displayed, setDisplayed] = useState(text)
+  const [tracked, setTracked] = useState({ key, text })
+
+  // Adjust state during render when inputs change — avoids a synchronous
+  // setState inside the effect (react-hooks/set-state-in-effect).
+  // See: https://react.dev/reference/react/useState#storing-information-from-previous-renders
+  if (tracked.key !== key || tracked.text !== text) {
+    setTracked({ key, text })
+    setDisplayed(key === 0 ? text : '')
+  }
+
   useEffect(() => {
-    if (key === 0) { setDisplayed(text); return }
+    if (key === 0) return
     let i = 0
-    setDisplayed('')
     const interval = setInterval(() => {
-      setDisplayed(text.slice(0, i + 1))
       i++
+      setDisplayed(text.slice(0, i))
       if (i === text.length) clearInterval(interval)
     }, speed)
     return () => clearInterval(interval)
   }, [key, text, speed])
+
   return displayed
 }
 
 const GreetingModule = () => {
-  const [greeting, setGreeting] = useState('Good evening, visitor')
-  const [day, setDay] = useState('Monday')
-  const [fullTimeText, setFullTimeText] = useState('')
-  const [fullDateText, setFullDateText] = useState('')
+  const [greeting] = useState(() => getGreeting(new Date().getHours()))
+  const [day] = useState(() => new Date().toLocaleDateString('en-US', { weekday: 'long' }))
+  const [fullTimeText] = useState(() =>
+    new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })
+  )
+  const [fullDateText] = useState(() => {
+    const now = new Date()
+    return `${getOrdinal(now.getDate())} ${now.toLocaleDateString('en-US', { month: 'long' })} ${now.getFullYear()}`
+  })
 
   const [showFullTime, setShowFullTime] = useState(false)
   const [showFullDate, setShowFullDate] = useState(false)
@@ -49,20 +64,6 @@ const GreetingModule = () => {
   const displayedDate     = useTypewriter(fullDateText,       fullDateKey)
   const displayedGreeting = useTypewriter(greeting,           greetingKey)
   const displayedDay      = useTypewriter(`Happy ${day}`,     dayKey)
-
-  useEffect(() => {
-    const now = new Date()
-    const hour = now.getHours()
-    setGreeting(getGreeting(hour))
-    setDay(now.toLocaleDateString('en-US', { weekday: 'long' }))
-    setFullTimeText(
-      now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })
-    )
-    const ordinalDay = getOrdinal(now.getDate())
-    const month = now.toLocaleDateString('en-US', { month: 'long' })
-    const year = now.getFullYear()
-    setFullDateText(`${ordinalDay} ${month} ${year}`)
-  }, [])
 
   return (
     <div className='flex flex-col text-right font-light text-xs uppercase cursor-pointer
