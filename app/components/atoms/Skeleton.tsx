@@ -13,7 +13,7 @@ const animationClass: Record<Animation, string> = {
   wave:    'animate-wave',
 };
 
-export function Skeleton({ className, animation = 'wave' }: SkeletonProps) {
+export function Skeleton({ className, animation = 'shimmer' }: SkeletonProps) {
   return (
     <div
       className={twMerge(

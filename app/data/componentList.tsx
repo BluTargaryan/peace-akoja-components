@@ -14,6 +14,7 @@ export type ComponentEntry = {
   description: React.ReactNode;
   code: string;
   usageExample: string;
+  cssSnippet?: string;
 };
 
 export const componentList: ComponentEntry[] = [
@@ -155,6 +156,19 @@ export default function FaqSection() {
       ]}
     />
   );
+}`,
+    cssSnippet: `/* Add the following to your globals.css */
+
+/* Inside your @theme block */
+--animate-accordion-down: accordion-down 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+--animate-accordion-up: accordion-up 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+@keyframes accordion-down {
+  from { height: 0; }
+  to { height: var(--radix-accordion-content-height); }
+}
+@keyframes accordion-up {
+  from { height: var(--radix-accordion-content-height); }
+  to { height: 0; }
 }`,
   },
   {
@@ -418,6 +432,31 @@ export default function LoadingCard() {
       </div>
     </>
   );
+}`,
+    cssSnippet: `/* Add the following to your globals.css */
+
+.skeleton-shimmer {
+  overflow: hidden;
+}
+.skeleton-shimmer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(to right, transparent, rgb(255 255 255 / 0.1), transparent);
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+/* Inside your @theme block */
+--animate-shimmer: shimmer 1.4s ease-in-out infinite;
+--animate-wave: wave 1.4s ease-in-out infinite;
+@keyframes shimmer {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(100%); }
+}
+@keyframes wave {
+  0%, 100% { transform: scaleY(1); }
+  50%      { transform: scaleY(0.92); }
 }`,
   },
   {

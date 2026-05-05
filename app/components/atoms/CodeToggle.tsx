@@ -8,9 +8,11 @@ import CodeModule from "./CodeModule";
 const CodeToggle = ({
   code,
   usageExample,
+  cssSnippet,
 }: {
   code: string;
   usageExample: string;
+  cssSnippet?: string;
 }) => {
   const [showCode, setShowCode] = useState(false);
   return (
@@ -35,6 +37,9 @@ const CodeToggle = ({
       >
         <CodeModule heading="Component Code" codeSnippet={code} />
         <CodeModule heading="Usage Example" codeSnippet={usageExample} />
+        {cssSnippet && (
+          <CodeModule heading="Global CSS" codeSnippet={cssSnippet} />
+        )}
       </div>
     </>
   );
